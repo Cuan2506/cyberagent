@@ -1,0 +1,1589 @@
+﻿<div id="PanelStatus" data-role="page" data-theme="b">
+    <script type="text/javascript" src="js/dynamic.js"></script>
+    <script type="text/javascript">
+        $(document).bind("pagebeforechange", function (e, data)
+        {
+
+            // We only want to handle changePage() calls where the caller is
+            // asking us to load a page by URL.
+            console.log("data.topage " + typeof data.toPage);
+
+            //alert("data.topage " + data.toPage);
+
+            if (typeof data.toPage === "string") {
+
+
+                console.log("data.topage " + data.toPage);
+                // We are being asked to load a page by URL, but we only
+                // want to handle URLs that request the data for a specific
+                // category.
+
+                var u = $.mobile.path.parseUrl(data.toPage), re = /^#PanelStatus/;
+                //re2 = /^properties.html/;
+
+
+                //alert('regex 1:' + u.hash.search(re));
+                //alert('regex 2:' + u.hash.search(re2));
+                //if (u.hash.search(re2) !== -1) {
+                //    //alert('Url from dashboard');
+                //}
+
+
+                //  populateoptiontemplates();
+
+                if (u.hash.search(re) !== -1) {
+
+                    // We're being asked to display the items for a specific category.
+                    // Call our internal method that builds the content for the category
+                    // on the fly based on our in-memory category data structure.
+                    //showCategory(u, data.options);
+
+
+                    var passedId = u.hash.replace(/.*id=/, "");
+
+                    // alert("form id :" + passedId);
+                    console.log("form id :" + passedId);
+
+                    if (u.hash.search(/.*id=/, "") == -1) {
+                        if (propertyID !== undefined)
+                            passedId = propertyID;
+
+                    }
+
+
+                    propertyID = passedId;
+                    $("#property_id").html(propertyID);
+                    $("#propertyhead").html(["Current Agent: " + currentUser + " - Property Slot # ", passedId].join(""));
+
+                    if (propertyID != undefined) {
+                        console.log("getting formproperty for propertyID :=" + propertyID);
+                        var $form = $("#formproperty");
+
+                        var storeddata = getPageData();
+
+                        if ($form.get(0) !== undefined) {
+                            $form.get(0).reset();
+
+                            $form.deserialize(storeddata, function ()
+                            {
+                                console.log("form data replaced!");
+                            });
+                            //  $.mobile.changePage("#PanelStatus?id=" + propertyID, { forcereload: true });
+                        }
+
+
+
+                    }
+
+                }
+
+                //e.preventDefault();
+
+                //$.mobile.changePage("#PanelStatus?id=" + propertyID);
+
+                // Make sure to tell changePage() we've handled this call so it doesn't
+                // have to do anything.
+                // e.preventDefault();
+
+            }
+        });
+
+    </script>
+    <div data-role="header" data-theme="b" data-id="navpropertyheader" data-position="fixed">
+        <h1 id="propertyhead">CyberAgent Mobile - Property Status</h1>
+        <a href="#context-left-panel" data-icon="grid" data-theme="b" class="ui-btn-left"
+            data-shadow="false">Menu</a> <a href="#PanelPicturePageHome" data-theme="c" id="picturelink"
+                data-url="PanelPicturePageHome" data-icon="star" class="ui-btn-right">Pictures</a>
+    </div>
+    <!-- Property form -- 1 form that wraps 5 content divs -->
+    <form id="formproperty">
+        <input id="property_id" type="hidden" />
+        <!-- Property listing status 'tab'-->
+        <div id="PanelStatus_div" data-role="content">
+            <div data-role="collapsible" data-content-theme="d">
+                <h3>Classification:</h3>
+                <div data-role="fieldcontain">
+                    <label for="PanelStatus_lstPtype">
+                        List Status:</label>
+                    <select id="PanelStatus_lstPtype" name="PanelStatus_lstPtype" data-native-menu="true">
+                        <option value="1">For Sale</option>
+                        <option value="2">To Rent</option>
+                        <option value="3">Both</option>
+                        <option value="4" selected="selected">Not Listed</option>
+                    </select>
+                    <div data-role="fieldcontain">
+                        <label for="PanelStatus_lst_Type">
+                            Type:</label>
+                        <select id="PanelStatus_lst_Type" name="PanelStatus_lst_Type" data-native-menu="true">
+                            <option value="Agricultural Holding">Agricultural Holding</option>
+                            <option value="Apartment">Apartment</option>
+                            <option value="Bed and Breakfast">Bed and Breakfast</option>
+                            <option value="Bungalow">Bungalow</option>
+                            <option value="Business">Business</option>
+                            <option value="Cluster">Cluster</option>
+                            <option value="Commercial">Commercial</option>
+                            <option value="Cottage">Cottage</option>
+                            <option value="Country Estate">Country Estate</option>
+                            <option value="Detached House">Detached House</option>
+                            <option value="Development">Development</option>
+                            <option value="Development Land">Development Land</option>
+                            <option value="Duet">Duet</option>
+                            <option value="Duet/semi">Duet/semi</option>
+                            <option value="Duplex">Duplex</option>
+                            <option value="Factory">Factory</option>
+                            <option value="Farms">Farms</option>
+                            <option value="Flats">Flats</option>
+                            <option value="Fractional">Fractional</option>
+                            <option value="Furnished Residential">Furnished Residential</option>
+                            <option value="Game Ranch">Game Ranch</option>
+                            <option value="Game Reserve">Game Reserve</option>
+                            <option value="Garage">Garage</option>
+                            <option value="Gated Village">Gated Village</option>
+                            <option value="Golf Estate">Golf Estate</option>
+                            <option value="Guest Farm">Guest Farm</option>
+                            <option value="Guest House">Guest House</option>
+                            <option value="Holiday Accommodation">Holiday Accommodation</option>
+                            <option value="Hotel">Hotel</option>
+                            <option value="House" selected="selected">House</option>
+                            <option value="Lodge">Lodge</option>
+                            <option value="Mine">Mine</option>
+                            <option value="Mooring">Mooring</option>
+                            <option value="Multi-purpose">Multi-purpose</option>
+                            <option value="Office Block">Office Block</option>
+                            <option value="Offices">Offices</option>
+                            <option value="On Tender">On Tender</option>
+                            <option value="Penthouse">Penthouse</option>
+                            <option value="Petrol Station">Petrol Station</option>
+                            <option value="Plot 'n Plan">Plot 'n Plan</option>
+                            <option value="Renovate">Renovate</option>
+                            <option value="Residential">Residential</option>
+                            <option value="Resorts">Resorts</option>
+                            <option value="Retail">Retail</option>
+                            <option value="Retirement Home">Retirement Home</option>
+                            <option value="Retirement Village">Retirement Village</option>
+                            <option value="Riverfront">Riverfront</option>
+                            <option value="Sectional Title">Sectional Title</option>
+                            <option value="Security Estate">Security Estate</option>
+                            <option value="Semi">Semi</option>
+                            <option value="Semi Detached House">Semi Detached House</option>
+                            <option value="Shack">Shack</option>
+                            <option value="Shareblock">Shareblock</option>
+                            <option value="Shopping Centre">Shopping Centre</option>
+                            <option value="Simplex">Simplex</option>
+                            <option value="Smallholdings">Smallholdings</option>
+                            <option value="Timeshare">Timeshare</option>
+                            <option value="Townhouse">Townhouse</option>
+                            <option value="Vacant Land">Vacant Land</option>
+                            <option value="Villa">Villa</option>
+                            <option value="Warehousing">Warehousing</option>
+                        </select>
+                    </div>
+                </div>
+                <div data-role="fieldcontain">
+                    <label for="PanelStatus_WwWebDropDownList1">
+                        Mand. Type:</label>
+                    <select id="PanelStatus_WwWebDropDownList1" name="PanelStatus_WwWebDropDownList1"
+                        data-native-menu="true">
+                        <option value="1">Open Mandate</option>
+                        <option value="2">MLS Mandate</option>
+                        <option value="3">Shared Mandate</option>
+                        <option value="4">Sole Mandate</option>
+                        <option value="5">Office Listing</option>
+                        <option value="6">Group Listing</option>
+                        <option value="7">Opposition Mandate</option>
+                        <option value="8">Country Wide</option>
+                    </select>
+                    <div data-role="fieldcontain">
+                        <label for="PanelStatus_lsthtm2">
+                            W Group:</label>
+                        <select id="PanelStatus_lsthtm2" name="PanelStatus_lsthtm" data-native-menu="true">
+                            <option value="multidispAu.htm">Auctions</option>
+                            <option value="multidispBu.htm">Business</option>
+                            <option value="multidispCo.htm">Commercial</option>
+                            <option value="multidispFa.htm">Farm Display</option>
+                            <option value="multidispSH.htm">Small Holdings</option>
+                            <option value="multidispHH.htm">Holiday Homes</option>
+                            <option value="multidispOf.htm">Home Office</option>
+                            <option value="multidispIn.htm">Industrial</option>
+                            <option value="multidisp.htm" selected="selected">Residential</option>
+                            <option value="multidispRH.htm">Retirement Villages</option>
+                            <option value="multidispva.htm">Vacant Land</option>
+                            <option value="multidispFr.htm">Fractional Property</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div data-role="collapsible" data-content-theme="d">
+                <h3>Pricing</h3>
+                <div data-role="fieldcontain">
+                    <table>
+                        <tr>
+                            <td width="20%">
+                                <label for="PanelStatus_txtPrice">
+                                    Price:</label>
+                            </td>
+                            <td></td>
+                            <td width="30%">
+                                <input type="number"  pattern="[0-9]*" id="PanelStatus_txtPrice" name="PanelStatus_txtPrice" value="0" />
+                            </td>
+                            <td width="20%">
+                                <label for="PanelStatus_txtGrosscom">
+                                    Com:</label>
+                            </td>
+                            <td width="30%">
+                                <input  type="number"  pattern="[0-9]*" id="PanelStatus_txtGrosscom" name="PanelStatus_txtGrosscom" value="0.00" />
+                            </td>
+                        </tr>
+                    </table>
+                    <div data-role="controlgroup" data-type="horizontal" data-inline="true" data-mini="true">
+                        <div data-role="fieldcontain">
+                            <table cols="2">
+                                <tr>
+                                    <td width="35%">&nbsp;
+                                    </td>
+                                    <td width="60%">
+                                        <label for="PanelStatus_txtPOA">
+                                            P.O.A.</label>
+                                        <input type="checkbox" name="PanelStatus_txtPOA" id="PanelStatus_txtPOA" onclick="setPOA();" />
+                                        <label for="PanelStatus_txtneg">
+                                            Neg.</label>
+                                        <input type="checkbox" name="PanelStatus_txtneg" id="PanelStatus_txtneg" />
+                                    </td>
+                                </tr>
+                            </table>
+                            <div data-role="fieldcontain">
+                                <label for="PanelStatus_txtowner3">
+                                    Seller Pr:</label>
+                                <input type="number" id="PanelStatus_txtowner3" name="PanelStatus_txtowner" value="0" />
+                                <div data-role="fieldcontain">
+                                    <label for="PanelStatus_txtminprice2">
+                                        Min:</label>
+                                    <input  type="number"  pattern="[0-9]*" id="PanelStatus_txtminprice2" name="PanelStatus_txtminprice" value="0" />
+                                    <div data-role="controlgroup" data-type="horizontal">
+                                        <table>
+                                            <tr>
+                                                <td width="30%">
+                                                    <label for="PanelStatus_txtrental3">
+                                                        Rental:</label>
+                                                </td>
+                                                <td width="50%">
+                                                    <input  type="number"  pattern="[0-9]*" id="PanelStatus_txtrental3" name="PanelStatus_txtrental" value="0" />
+                                                </td>
+                                                <td width="20%">
+                                                    <select id="PanelStatus_txtrentper" name="PanelStatus_txtrentper" data-native-menu="true">
+                                                        <option value="PM">Per Month</option>
+                                                        <option value="PA">Per Anum</option>
+                                                        <option value="PW">Per Week</option>
+                                                        <option value="PD">Per Day</option>
+                                                        <option value="SQ">Per Square M</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <div data-role="fieldcontain">
+                                            <label for="PanelStatus_txtMarket2">
+                                                Market Val:</label>
+                                            <input  type="number"  pattern="[0-9]*" id="PanelStatus_txtMarket2" name="PanelStatus_txtMarket" value="0" />
+                                        </div>
+                                        <div data-role="fieldcontain">
+                                            <label for="PanelStatus_txtcur">
+                                                Cur:</label>
+                                            <select id="PanelStatus_txtcur" name="PanelStatus_txtcur" data-native-menu="true">
+                                                <option value="AUD">Australia Dollar</option>
+                                                <option value="BRL">Brazil Real</option>
+                                                <option value="BWP">Botswana Pula</option>
+                                                <option value="CAD">Canada Dollar</option>
+                                                <option value="CHF">Switzerland Franc</option>
+                                                <option value="CNY">People Republic of China Yuan (Rinminbi)</option>
+                                                <option value="DKK">Denmark Krone</option>
+                                                <option value="EUR">European Monetary Union Euro</option>
+                                                <option value="GBP">United Kingdom Pound Sterling</option>
+                                                <option value="HKD">Hong Kong Dollar</option>
+                                                <option value="ILS">Israeli New Shekel</option>
+                                                <option value="INR">India Rupee</option>
+                                                <option value="JPY">Japan Yen</option>
+                                                <option value="KRW">South Korea Won</option>
+                                                <option value="LKR">Sri Lanka Rupee</option>
+                                                <option value="MUR">Mauritius Rupee</option>
+                                                <option value="MXP">Mexico Peso</option>
+                                                <option value="MYR">Malaysia Ringgit</option>
+                                                <option value="NAD">Namibia Namibia Dollar</option>
+                                                <option value="NGN">Nigeria Naira</option>
+                                                <option value="NOK">Norway Krone</option>
+                                                <option value="NZD">New Zealand Dollar</option>
+                                                <option value="SEK">Sweden Krona</option>
+                                                <option value="SGD">Singapore Dollar</option>
+                                                <option value="THB">Thailand Baht</option>
+                                                <option value="TWD">Taiwan Dollar</option>
+                                                <option value="USD">United States of America Dollar</option>
+                                                <option value="VEB">Venezuela Bolivar</option>
+                                                <option value="ZAR" selected="selected">South Africa Rand</option>
+                                                <option value="ZMK">Zambia Kwacha</option>
+                                            </select>
+                                        </div>
+                                        <div data-role="fieldcontain">
+                                            <label for="PanelStatus_txtsqprice">
+                                                Cost/m2:</label>
+                                            <input type="number" id="PanelStatus_txtsqprice" name="PanelStatus_txtsqprice" ontextchanged="txtMarket_TextChanged"
+                                                disabled="disabled" value="0" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div data-role="collapsible" data-content-theme="f">
+                <h3>Details</h3>
+                <div data-role="fieldcontain">
+                    <label for="PanelStatus_txtlotnum2">
+                        Erf #:</label>
+                    <input type="text" id="PanelStatus_txtlotnum2" name="PanelStatus_txtlotnum" maxlength="30"
+                        value="" />
+                </div>
+                <div data-role="fieldcontain">
+                    <label for="PanelStatus_txtlistingd">
+                        Listing Date:</label>
+                    <input id="PanelStatus_txtlistingd" name="PanelStatus_txtlistingd" type="date" value="2013-03-24" />
+                </div>
+                <div data-role="fieldcontain">
+                    <label for="PanelStatus_txtexpiringd">
+                        Expiry Date:</label>
+                    <input type="date" value="2014-03-15" id="PanelStatus_txtexpiringd" name="PanelStatus_txtexpiringd"
+                        title="Select date" />
+                </div>
+                <div data-role="fieldcontain">
+                    <label for="PanelStatus_txtoneline">
+                        Catch Phr:</label>
+                    <input type="text" id="PanelStatus_txtoneline" name="PanelStatus_txtoneline" maxlength="100"
+                        value="" class="ac_input" />
+                    
+                    <ul id="PanelStatus_txtoneline_suggestions" data-role="listview" data-inset="true" data-theme="d" data-content-theme="d"></ul>
+                </div>
+
+            </div>
+            <div id="PanelContact_div" data-role="collapsible" data-content-theme="d">
+                <h1>Contact Details</h1>
+                <div data-role="controlgroup">
+                    <fieldset data-type="vertical" data-mini="true">
+                        <legend>Contact Information</legend>
+                        <label for="PanelDetail_txttitle">
+                            Title</label>
+                        <select id="PanelDetail_txttitle" name="PanelDetail_txttitle" size="1">
+                            <option value="">Select</option>
+                            <option value="Mrs.">Mrs.</option>
+                            <option value="Miss.">Miss.</option>
+                            <option value="Ms.">Ms.</option>
+                            <option value="Mr.">Mr.</option>
+                            <option value="Dr.">Dr.</option>
+                            <option value="Rev.">Rev.</option>
+                            <option value="Prof.">Prof.</option>
+                            <option value="Sgt.">Sgt.</option>
+                            <option value="Maj.">Maj.</option>
+                            <option value="Mr & Mrs.">Mr & Mrs.</option>
+                        </select>
+                        <label for="PanelDetail_txtname">
+                            Name
+                        </label>
+                        <input type="text" id="PanelDetail_txtname" name="PanelDetail_txtname" bold="True"
+                            maxlength="25" value="" />
+                        <label for="PanelDetail_txtsurname">
+                            Surname
+                        </label>
+                        <input type="text" id="PanelDetail_txtsurname" name="PanelDetail_txtsurname" bold="True"
+                            maxlength="30" value="" />
+                        <label for="PanelDetail_txtidno">
+                            ID</label>
+                        <input type="text" id="PanelDetail_txtidno" name="PanelDetail_txtidno" onblur="updatebirth();"
+                            maxlength="15" value="" />
+                        <label for="PanelDetail_txtcompany">
+                            Company</label>
+                        <input type="text" id="PanelDetail_txtcompany" name="PanelDetail_txtcompany" maxlength="50"
+                            value="" />
+                        <label for="PanelDetail_txttelephone">
+                            Tel 1
+                        </label>
+                        <input type="tel" id="PanelDetail_txttelephone" name="PanelDetail_txttelephone" maxlength="15"
+                            value="" />
+                        <label for="PanelDetail_txttel2">
+                            Tel 2
+                        </label>
+                        <input type="tel" id="PanelDetail_txttel2" name="PanelDetail_txttel2" maxlength="15"
+                            value="" />
+                        <label for="PanelDetail_txttel3">
+                            Tel 3
+                        </label>
+                        <input type="tel" id="PanelDetail_txttel3" name="PanelDetail_txttel3" maxlength="15"
+                            value="" />
+                        <label for="PanelDetail_txtcell">
+                            Cell 1</label>
+                        <input type="tel" id="PanelDetail_txtcell" name="PanelDetail_txtcell" maxlength="15"
+                            value="" />
+                        <label for="PanelDetail_txtcell2">
+                            Cell 2</label>
+                        <input type="tel" id="PanelDetail_txtcell2" name="PanelDetail_txtcell2" maxlength="15"
+                            value="" />
+                        <label for="PanelDetail_txtfax">
+                            Fax</label>
+                        <input type="tel" id="PanelDetail_txtfax" name="PanelDetail_txtfax" maxlength="15"
+                            value="" />
+                        <label for="PanelDetail_txtemail">
+                            Email</label>
+                        <input type="email" id="PanelDetail_txtemail" name="PanelDetail_txtemail" maxlength="50"
+                            value="" />
+                        <label for="PanelDetail_txtlang">
+                            Language</label>
+                        <select id="PanelDetail_txtlang" name="PanelDetail_txtlang" size="1">
+                            <option value="">Select</option>
+                            <option value="A">Afrikaans</option>
+                            <option value="E">English</option>
+                        </select>
+                    </fieldset>
+                </div>
+            </div>
+            <div data-role="collapsible" class="ui-disabled">
+                <h3>Agent: Willie van Schalkwyk (0013)</h3>
+                <div data-role="fieldcontain">
+                    <label for="PanelStatus_txtagent">
+                        Agent:</label>
+                    <select id="PanelStatus_txtagent" name="PanelStatus_txtagent" disabled="disabled">
+                        <option value="0013" selected="selected">Willie van Schalkwyk (0013)</option>
+                    </select>
+                </div>
+                <div data-role="fieldcontain">
+                    <label for="PanelStatus_txtcell">
+                        Cell:</label>
+                    <input type="tel" id="PanelStatus_txtcell" name="PanelStatus_txtcell" disabled="disabled" />
+                </div>
+                <div data-role="fieldcontain">
+                    <label for="PanelStatus_txtemail">
+                        Email:</label>
+                    <input type="email" id="PanelStatus_txtemail" name="PanelStatus_txtemail" disabled="disabled" />
+                </div>
+            </div>
+        </div>
+        <!-- Property Address 'tab'-->
+        <div id="PanelAddress_div" data-role="content">
+            <div id="PanelAddress_txtProvince_div" data-role="fieldcontain">
+                <label for="PanelAddress_txtProvince">
+                    Province</label>
+                <select id="PanelAddress_txtProvince" name="PanelAddress_txtProvince" data-native-menu="true">
+                    <option value="select one" data-placeholder="true">Select Province</option>
+                </select>
+            </div>
+            <div id="PanelAddress_txtCity_Div" data-role="fieldcontain">
+                <label id="PanelAddress_txtCity_label" for="PanelAddress_txtCity">
+                    City</label>
+                <select id="PanelAddress_txtCity" name="PanelAddress_txtCity" data-native-menu="true">
+                    <option value="select one" data-placeholder="true">Select City</option>
+                </select>
+            </div>
+            <div id="PanelAddress_txtSuburb_div" data-role="fieldcontain">
+                <label id="PanelAddress_txtSuburb_label" for="PanelAddress_txtSuburb">
+                    Suburb</label>
+                <select id="PanelAddress_txtSuburb" name="PanelAddress_txtSuburb" data-native-menu="true">
+                    <option value="select one" data-placeholder="true">Select Suburb</option>
+                </select>
+            </div>
+            <div id="PanelAddress_txtStreetno_div" data-role="fieldcontain">
+                <label for="PanelAddress_txtStreetno">
+                    Street No</label>
+                <input type="text" id="PanelAddress_txtStreetno" name="PanelAddress_txtStreetno"
+                    maxlength="10" value="" />
+            </div>
+            <div id="PanelAddress_txtStreet_div" data-role="fieldcontain">
+                <label for="PanelAddress_txtStreet">
+                    Street</label>
+                <input type="text" id="PanelAddress_txtStreet" name="PanelAddress_txtStreet" />
+            </div>
+            <div id="PanelAddress_txtDevelopment_div" data-role="fieldcontain">
+                <label for="PanelAddress_txtDevelopment">
+                    Development
+                </label>
+                <input type="text" id="PanelAddress_txtDevelopment" name="PanelAddress_txtDevelopment"
+                    value="" />
+            </div>
+        </div>
+        <!-- Property Specifics 'tab'-->
+        <div id="PanelSpesifics_div" data-role="content">
+            <div data-role="collapsible">
+                <h1>Main Features</h1>
+                <div data-role="fieldcontain">
+                    <label for="PanelSpesific_lstbed">
+                        Bedrooms:</label>
+                    <select id="PanelSpesific_lstbed" name="PanelSpesific_lstbed" data-native-menu="true">
+                        <option value="0" selected="selected">0</option>
+                        <option value="1">1</option>
+                        <option value="1.5">1.5</option>
+                        <option value="2">2</option>
+                        <option value="2.5">2.5</option>
+                        <option value="3">3</option>
+                        <option value="3.5">3.5</option>
+                        <option value="4">4</option>
+                        <option value="4.5">4.5</option>
+                        <option value="5">5</option>
+                        <option value="5.5">5.5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="16">16</option>
+                        <option value="17">17</option>
+                        <option value="18">18</option>
+                        <option value="19">19</option>
+                        <option value="20">20</option>
+                        <option value="21">21</option>
+                        <option value="22">22</option>
+                        <option value="23">23</option>
+                        <option value="24">24</option>
+                        <option value="25">25</option>
+                        <option value="26">26</option>
+                        <option value="27">27</option>
+                        <option value="28">28</option>
+                        <option value="29">29</option>
+                        <option value="30">30</option>
+                        <option value="35">35</option>
+                        <option value="40">40</option>
+                        <option value="45">45</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
+                <div data-role="fieldcontain">
+                    <label for="PanelSpesific_lstbath">
+                        Bathrooms:</label>
+                    <select id="PanelSpesific_lstbath" name="PanelSpesific_lstbath" data-native-menu="true">
+                        <option value="0" selected="selected">0</option>
+                        <option value="1">1</option>
+                        <option value="1.5">1.5</option>
+                        <option value="2">2</option>
+                        <option value="2.5">2.5</option>
+                        <option value="3">3</option>
+                        <option value="3.5">3.5</option>
+                        <option value="4">4</option>
+                        <option value="4.5">4.5</option>
+                        <option value="5">5</option>
+                        <option value="5.5">5.5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                        <option value="25">25</option>
+                        <option value="30">30</option>
+                        <option value="35">35</option>
+                        <option value="40">40</option>
+                        <option value="45">45</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
+                <fieldset data-role="controlgroup" data-mini="true" data-type="horizontal">
+                    <legend>Garages</legend>
+                  
+                        <label for="PanelSpesific_lstGar">
+                            Garages:</label>
+                        <select id="PanelSpesific_lstGar" name="PanelSpesific_lstGar">
+                            <option value="0" selected="selected">0</option>
+                            <option value="1">1</option>
+                            <option value="1.5">1.5</option>
+                            <option value="2">2</option>
+                            <option value="2.5">2.5</option>
+                            <option value="3">3</option>
+                            <option value="3.5">3.5</option>
+                            <option value="4">4</option>
+                            <option value="4.5">4.5</option>
+                            <option value="5">5</option>
+                            <option value="5.5">5.5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                            <option value="25">25</option>
+                            <option value="30">30</option>
+                            <option value="35">35</option>
+                            <option value="40">40</option>
+                            <option value="45">45</option>
+                            <option value="50">50</option>
+                        </select>
+                  
+
+                   
+                        <input type="checkbox" name="PanelSpesific_chkparking" id="PanelSpesific_chkparking" />
+                        <label for="PanelSpesific_chkparking">
+                            Parking</label>
+                   
+                   
+                        <input type="checkbox" name="PanelSpesific_chkCarport" id="PanelSpesific_chkCarport" />
+                        <label for="PanelSpesific_chkCarport">
+                            Carport</label>
+                 
+                </fieldset>
+                <div data-role="fieldcontain">
+                    <label for="PanelSpesific_lstmes">
+                        MES:</label>
+                    <select id="PanelSpesific_lstmes" name="PanelSpesific_lstmes">
+                        <option value="0" selected="selected">0</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                        <option value="11">11</option>
+                        <option value="12">12</option>
+                        <option value="13">13</option>
+                        <option value="14">14</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                        <option value="25">25</option>
+                        <option value="30">30</option>
+                        <option value="35">35</option>
+                        <option value="40">40</option>
+                        <option value="45">45</option>
+                        <option value="50">50</option>
+                    </select>
+                </div>
+            </div>
+            <div data-role="collapsible">
+                <h1>Selected Specifics</h1>
+                <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                    <legend>Specifics </legend>
+                    <input type="checkbox" name="PanelSpesific_chkDinning" id="PanelSpesific_chkDinning" />
+                    <label for="PanelSpesific_chkDinning">
+                        Dining</label>
+                    <input type="checkbox" name="PanelSpesific_chkHall" id="PanelSpesific_chkHall" />
+                    <label for="PanelSpesific_chkHall">
+                        Ent Hall</label>
+                    <input type="checkbox" name="PanelSpesific_chkTV" id="PanelSpesific_chkTV" />
+                    <label for="PanelSpesific_chkTV">
+                        TV Room</label>
+                    <input type="checkbox" name="PanelSpesific_chkStudy" id="PanelSpesific_chkStudy" />
+                    <label for="PanelSpesific_chkStudy">
+                        Study</label>
+                    <input type="checkbox" name="PanelSpesific_chkRecRoom" id="PanelSpesific_chkRecRoom"
+                        isrequired="False" />
+                    <label for="PanelSpesific_chkRecRoom">
+                        Rec-Room</label>
+                    <input type="checkbox" name="PanelSpesific_chkLiving" id="PanelSpesific_chkLiving"
+                        isrequired="False" />
+                    <label for="PanelSpesific_chkLiving">
+                        Lounge</label>
+                    <input type="checkbox" name="PanelSpesific_chkKitchen" id="PanelSpesific_chkKitchen"
+                        isrequired="False" />
+                    <label for="PanelSpesific_chkKitchen">
+                        Kitchen</label>
+                    <input type="checkbox" name="PanelSpesific_chkPantry" id="PanelSpesific_chkPantry"
+                        isrequired="False" />
+                    <label for="PanelSpesific_chkPantry">
+                        Pantry</label>
+                    <input type="checkbox" name="PanelSpesific_chklaundry" id="PanelSpesific_chklaundry"
+                        isrequired="False" />
+                    <label for="PanelSpesific_chklaundry">
+                        Laundry
+                    </label>
+                    <input type="checkbox" name="PanelSpesific_chkGuestt" id="PanelSpesific_chkGuestt" />
+                    <label for="PanelSpesific_chkGuestt">
+                        Guest Toilet</label>
+                    <input type="checkbox" name="PanelSpesific_chkheating" id="PanelSpesific_chkheating" />
+                    <label for="PanelSpesific_chkheating">
+                        U Floor H</label>
+                    <input type="checkbox" name="PanelSpesific_chkservant" id="PanelSpesific_chkservant" />
+                    <label for="PanelSpesific_chkservant">
+                        Servant</label>
+                    <input type="checkbox" name="PanelSpesific_chkPatio" id="PanelSpesific_chkPatio" />
+                    <label for="PanelSpesific_chkPatio">
+                        Patio</label>
+                    <input type="checkbox" name="PanelSpesific_chkpaving" id="PanelSpesific_chkpaving" />
+                    <label for="PanelSpesific_chkpaving">
+                        Paving</label>
+                    <input type="checkbox" name="PanelSpesific_chkView" id="PanelSpesific_chkView" />
+                    <label for="PanelSpesific_chkView">
+                        View</label>
+                    <input type="checkbox" name="PanelSpesific_chktennis" id="PanelSpesific_chktennis" />
+                    <label for="PanelSpesific_chktennis">
+                        Tennis Court</label>
+                    <input type="checkbox" name="PanelSpesific_chkPool" id="PanelSpesific_chkPool" />
+                    <label for="PanelSpesific_chkPool">
+                        Pool</label>
+                    <input type="checkbox" name="PanelSpesific_chksecurity" id="PanelSpesific_chksecurity" />
+                    <label for="PanelSpesific_chksecurity">
+                        Security</label>
+                    <input type="checkbox" name="PanelSpesific_chkintercom" id="PanelSpesific_chkintercom" />
+                    <label for="PanelSpesific_chkintercom">
+                        Intercom</label>
+                    <input type="checkbox" name="PanelSpesific_chkAlarm" id="PanelSpesific_chkAlarm" />
+                    <label for="PanelSpesific_chkAlarm">
+                        Alarm</label>
+                    <input type="checkbox" name="PanelSpesific_chkElcgate" id="PanelSpesific_chkElcgate" />
+                    <label for="PanelSpesific_chkElcgate">
+                        Elec. Gate</label>
+                    <input type="checkbox" name="PanelSpesific_chksfence" id="PanelSpesific_chksfence" />
+                    <label for="PanelSpesific_chksfence">
+                        Sec Fence</label>
+                    <input type="checkbox" name="PanelSpesific_chkslights" id="PanelSpesific_chkslights" />
+                    <label for="PanelSpesific_chkslights">
+                        Sec Lights</label>
+                    <input type="checkbox" name="PanelSpesific_chkpets" id="PanelSpesific_chkpets" />
+                    <label for="PanelSpesific_chkpets">
+                        Pets</label>
+                    <input type="checkbox" name="PanelSpesific_chkSprinkler" id="PanelSpesific_chkSprinkler" />
+                    <label for="PanelSpesific_chkSprinkler">
+                        Sprinklers</label>
+                    <input type="checkbox" name="PanelSpesific_chkaircon" id="PanelSpesific_chkaircon" />
+                    <label for="PanelSpesific_chkaircon">
+                        Aircon</label>
+                </fieldset>
+                <div data-role="collapsible" data-theme="a">
+                    <h1>Flat Details</h1>
+                    <fieldset data-role="controlgroup" data-mini="true" data-inline="true" data-type="horizontal">
+                        <input type="checkbox" name="PanelSpesific_chkFlat" id="PanelSpesific_chkFlat" />
+                        <label for="PanelSpesific_chkFlat">
+                            Flat</label>
+                        <input type="checkbox" name="PanelSpesific_chkflatloun" id="PanelSpesific_chkflatloun" />
+                        <label for="PanelSpesific_chkflatloun">
+                            F Lounge</label>
+                        <input type="checkbox" name="PanelSpesific_chkflatkitc" id="PanelSpesific_chkflatkitc" />
+                        <label for="PanelSpesific_chkflatkitc">
+                            F Kitchen</label>
+                    </fieldset>
+                    <div data-role="fieldcontain">
+                        <label for="PanelSpesific_lstfbedroom">
+                            Flat Bedroom:</label>
+                        <select id="PanelSpesific_lstfbedroom" name="PanelSpesific_lstfbedroom">
+                            <option value="0" selected="selected">0</option>
+                            <option value="1">1</option>
+                            <option value="1.5">1.5</option>
+                            <option value="2">2</option>
+                            <option value="2.5">2.5</option>
+                            <option value="3">3</option>
+                            <option value="3.5">3.5</option>
+                            <option value="4">4</option>
+                            <option value="4.5">4.5</option>
+                            <option value="5">5</option>
+                            <option value="5.5">5.5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                        </select>
+                    </div>
+                    <div data-role="fieldcontain">
+                        <label for="PanelSpesific_chkfbathroom">
+                            Flat Bathroom:</label>
+                        <select id="PanelSpesific_chkfbathroom" name="PanelSpesific_chkfbathroom">
+                            <option value="0" selected="selected">0</option>
+                            <option value="1">1</option>
+                            <option value="1.5">1.5</option>
+                            <option value="2">2</option>
+                            <option value="2.5">2.5</option>
+                            <option value="3">3</option>
+                            <option value="3.5">3.5</option>
+                            <option value="4">4</option>
+                            <option value="4.5">4.5</option>
+                            <option value="5">5</option>
+                            <option value="5.5">5.5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div data-role="collapsible">
+                <h1>Extras</h1>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td colspan="2">
+                                <label for="PanelSpesific_lsttvaerial">
+                                    TV Aerial:</label>
+                                <select id="PanelSpesific_lsttvaerial" name="PanelSpesific_lsttvaerial" onchange="document.getElementById('PanelSpesific_txttvaerial').value = this.value;">
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                    <option value="" selected="selected">Other</option>
+                                </select>
+                                <input type="text" id="PanelSpesific_txttvaerial" name="PanelSpesific_txttvaerial"
+                                    maxlength="5" value="" />
+                            </td>
+                            <td colspan="2">DSTV :
+							<select id="PanelSpesific_lstMNet" name="PanelSpesific_lstMNet" onchange="document.getElementById('PanelSpesific_txtmnetaerial').value = this.value;"
+                                size="1">
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                                <option value="" selected="selected">Other</option>
+                            </select>
+                                <input type="text" id="PanelSpesific_txtmnetaerial" name="PanelSpesific_txtmnetaerial"
+                                    maxlength="5" value="" />
+                            </td>
+                            <td colspan="2">BIC:
+							<select id="PanelSpesific_lstbic" name="PanelSpesific_lstbic" onchange="document.getElementById('PanelSpesific_txtbic').value = this.value;"
+                                size="1">
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                                <option value="" selected="selected">Other</option>
+                            </select>
+                                <input type="text" id="PanelSpesific_txtbic" name="PanelSpesific_txtbic" maxlength="10"
+                                    value="" />
+                            </td>
+                            <td colspan="3">Showers:
+							<select id="PanelSpesific_lstShowers" name="PanelSpesific_lstShowers" onchange="document.getElementById('PanelSpesific_txtshowers').value = this.value;"
+                                size="1">
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                                <option value="" selected="selected">Other</option>
+                            </select>
+                                <input type="text" id="PanelSpesific_txtshowers" name="PanelSpesific_txtshowers"
+                                    maxlength="5" value="" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">Stove:
+							<select id="PanelSpesific_lstStove" name="PanelSpesific_lstStove" onchange="document.getElementById('PanelSpesific_txtstove').value = this.value;"
+                                size="1">
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                                <option value="" selected="selected">Other</option>
+                            </select>
+                                <input type="text" id="PanelSpesific_txtstove" name="PanelSpesific_txtstove" maxlength="10"
+                                    value="" />
+                            </td>
+                            <td colspan="2">Staff Quarters:
+							<select id="PanelSpesific_lstServtoil" name="PanelSpesific_lstServtoil" onchange="document.getElementById('PanelSpesific_txtServtoil').value = this.value;"
+                                size="1">
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                                <option value="" selected="selected">Other</option>
+                            </select>
+                                <input type="text" id="PanelSpesific_txtServtoil" name="PanelSpesific_txtServtoil"
+                                    maxlength="10" value="" />
+                            </td>
+                            <td colspan="2">Lapa/Braai
+							<select id="PanelSpesific_lstlapa" name="PanelSpesific_lstlapa" onchange="document.getElementById('PanelSpesific_txtlapa').value = this.value;"
+                                size="1">
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                                <option value="" selected="selected">Other</option>
+                            </select>
+                                <input type="text" id="PanelSpesific_txtlapa" name="PanelSpesific_txtlapa" maxlength="10"
+                                    value="" />
+                            </td>
+                            <td colspan="3">Rem. Garage:
+							<select id="PanelSpesific_lstRemgar" name="PanelSpesific_lstRemgar" onchange="document.getElementById('PanelSpesific_txtRemgar').value = this.value;"
+                                size="1">
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+                                <option value="" selected="selected">Other</option>
+                            </select>
+                                <input type="text" id="PanelSpesific_txtRemgar" name="PanelSpesific_txtRemgar" maxlength="10"
+                                    value="" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div data-role="collapsible">
+                <h3>Other</h3>
+                <table width="100%">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <label for="PanelSpesific_txtrooftype">
+                                    Roof:</label>
+                                <input type="search" id="PanelSpesific_txtrooftype" name="PanelSpesific_txtrooftype"
+                                    maxlength="25" value="" class="ac_input" />
+                                <ul id="PanelSpesific_txtrooftype_suggestions" data-role="listview" data-inset="true" data-theme="d" data-content-theme="d"></ul>
+                            </td>
+                            <td>
+                                <label for="PanelSpesific_txtceiltype">
+                                    Ceiling:</label>
+                                <input type="search" id="PanelSpesific_txtceiltype" name="PanelSpesific_txtceiltype"
+                                    maxlength="25" value="" class="ac_input" />
+                                  <ul id="PanelSpesific_txtceiltype_suggestions" data-role="listview" data-inset="true" data-theme="d" data-content-theme="d"></ul>
+                            </td>
+                            <td>
+                                <label for="PanelSpesific_txtwalltype">
+                                    Wall:</label>
+                                <input type="search" id="PanelSpesific_txtwalltype" name="PanelSpesific_txtwalltype"
+                                    maxlength="25" value="" class="ac_input" />
+                                  <ul id="PanelSpesific_txtwalltype_suggestions" data-role="listview" data-inset="true" data-theme="d" data-content-theme="d"></ul>
+                            </td>
+                            <td>
+                                <label for="PanelSpesific_txtexterior">
+                                    Exterior:</label>
+                                <input type="search" id="PanelSpesific_txtexterior" name="PanelSpesific_txtexterior"
+                                    maxlength="20" value="" class="ac_input" />
+                                  <ul id="PanelSpesific_txtexterior_suggestions" data-role="listview" data-inset="true" data-theme="d" data-content-theme="d"></ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="PanelSpesific_txtwindowtype">
+                                    Window:</label>
+                                <input type="search" id="PanelSpesific_txtwindowtype" name="PanelSpesific_txtwindowtype"
+                                    maxlength="25" value="" class="ac_input" />
+                                  <ul id="PanelSpesific_txtwindowtype_suggestions" data-role="listview" data-inset="true" data-theme="d" data-content-theme="d"></ul>
+                            </td>
+                            <td>
+                                <label for="PanelSpesific_txtgarden">
+                                    Garden:</label>
+                                <input type="search" id="PanelSpesific_txtgarden" name="PanelSpesific_txtgarden"
+                                    maxlength="25" value="" class="ac_input" />
+                                  <ul id="PanelSpesific_txtgarden_suggestions" data-role="listview" data-inset="true" data-theme="d" data-content-theme="d"></ul>
+                            </td>
+                            <td>
+                                <label for="PanelSpesific_txtfloortype">
+                                    Floors:</label>
+                                <input type="search" id="PanelSpesific_txtfloortype" name="PanelSpesific_txtfloortype"
+                                    value="" class="ac_input" />
+                                  <ul id="PanelSpesific_txtfloortype_suggestions" data-role="listview" data-inset="true" data-theme="d" data-content-theme="d"></ul>
+                            </td>
+                            <td />
+                            <td />
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="PanelSpesific_txtstories">
+                                    Storeys:</label>
+                                <input type="search" id="PanelSpesific_txtstories" name="PanelSpesific_txtstories"
+                                    maxlength="25" value="" />
+                                         <ul id="PanelSpesific_txtstories_suggestions" data-role="listview" data-inset="true" data-theme="d" data-content-theme="d"></ul>
+                            </td>
+                            <td>
+                                <label for="PanelSpesific_txtother">
+                                    Other 1:</label>
+                                <input type="search" id="PanelSpesific_txtother" name="PanelSpesific_txtother" maxlength="20"
+                                    value="" />
+                                 <ul id="PanelSpesific_txtother_suggestions" data-role="listview" data-inset="true" data-theme="d" data-content-theme="d"></ul>
+                            </td>
+                            <td>
+                                <label for="PanelSpesific_txtother2">
+                                    Other 2:</label>
+                                <input type="search" id="PanelSpesific_txtother2" name="PanelSpesific_txtother2"
+                                    maxlength="20" value="" />
+                                 <ul id="PanelSpesific_txtother2_suggestions" data-role="listview" data-inset="true" data-theme="d" data-content-theme="d"></ul>
+                            </td>
+                            <td />
+                            <td />
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div data-role="collapsible">
+                <h3>Sizes</h3>
+                <fieldset data-role="controlgroup">
+                    <table width="100%">
+                        <tbody>
+                            <tr>
+                                <td colspan="12">
+                                    <strong>Sizes</strong>
+                                </td>
+                                <td colspan="1" />
+                            </tr>
+                            <tr>
+                                <td>House:
+                                </td>
+                                <td>
+                                    <input  type="number"  pattern="[0-9]*" id="PanelSpesific_txtsize" name="PanelSpesific_txtsize" onblur="javascript:totsizes();"
+                                        value="0" />
+                                </td>
+                                <td>Patio:
+                                </td>
+                                <td>
+                                    <input  type="number"  pattern="[0-9]*" id="PanelSpesific_txtoutbsize" name="PanelSpesific_txtoutbsize"
+                                        onblur="javascript:totsizes();" value="0" />
+                                </td>
+                                <td>Alterat:
+                                </td>
+                                <td>
+                                    <input  type="number"  pattern="[0-9]*" id="PanelSpesific_txtaltersize" name="PanelSpesific_txtaltersize"
+                                        onblur="javascript:totsizes();" value="0" />
+                                </td>
+                                <td>Gar:
+                                </td>
+                                <td>
+                                    <input  type="number"  pattern="[0-9]*" id="PanelSpesific_txtgaragesize" name="PanelSpesific_txtgaragesize"
+                                        onblur="javascript:totsizes();" value="0" />
+                                </td>
+                                <tr>
+                                <td>
+                                    <strong>Total:</strong>
+                                </td>
+                                <td>
+                                    <input  type="number"  id="PanelSpesific_txttotalsize" name="PanelSpesific_txttotalsize"
+                                        readonly="true" value="0" />
+                                </td>
+                                <td>Land:
+                                </td>
+                                <td>
+                                    <input  type="number"  pattern="[0-9]*" id="PanelSpesific_txtlotsize" name="PanelSpesific_txtlotsize"
+                                        value="0" />
+                                </td>
+                                <td colspan="2">
+                                    <div data-role="controlgroup" data-type="horizontal" data-mini="true" id="PanelSpesific_radpsizetype"
+                                        name="PanelSpesific_radpsizetype">
+                                        <input type="radio" id="PanelSpesific_radpsizetype_1" name="PanelSpesific_radpsizetype"
+                                            value="m2" />
+                                        <label for="PanelSpesific_radpsizetype_1">
+                                            m2</label>
+                                        <input type="radio" id="PanelSpesific_radpsizetype_2" name="PanelSpesific_radpsizetype"
+                                            value="Ha" />
+                                        <label for="PanelSpesific_radpsizetype_2">
+                                            Ha</label>
+                                    </div>
+                                </td>
+                                    </tr>
+                            </tr>
+                        </tbody>
+                    </table>
+                </fieldset>
+            </div>
+            <div data-role="collapsible">
+                <h3>Tenant</h3>
+                <fieldset data-role="controlgroup" data-mini="true">
+                    <table width="100%">
+                        <tbody>
+                            <tr>
+                                <td colspan="12">
+                                    <strong>Tenant</strong>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Name:
+                                </td>
+                                <td>
+                                    <input type="text" id="PanelSpesific_txttenant" name="PanelSpesific_txttenant" maxlength="20"
+                                        value="" />
+                                </td>
+                                <td>Tel (h)
+                                </td>
+                                <td>
+                                    <input type="tel" id="PanelSpesific_txttentel1" name="PanelSpesific_txttentel1"
+                                        maxlength="15" value="" />
+                                </td>
+                                <td>Tel (w):
+                                </td>
+                                <td>
+                                    <input type="tel" id="PanelSpesific_txttentel2" name="PanelSpesific_txttentel2"
+                                        maxlength="15" value="" />
+                                </td>
+                                <td>Cell:
+                                </td>
+                                <td>
+                                    <input type="text" id="PanelSpesific_tentel3" name="PanelSpesific_tentel3" maxlength="15"
+                                        value="" />
+                                </td>
+                                </tr>
+                            <tr>
+                                <td>Expire:
+                                </td>
+                                <td>
+                                    <input type="text" id="PanelSpesific_txttexp" name="PanelSpesific_txttexp" maxlength="15"
+                                        value="" />
+                                </td>
+                                <td>Vacant:
+                                </td>
+                                <td>
+                                    <input type="text" id="PanelSpesific_WwWebTextBox9" name="PanelSpesific_WwWebTextBox9"
+                                        maxlength="25" value="" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </fieldset>
+            </div>
+        </div>
+        <div id="PanelNotes_div" data-role="content">
+            <fieldset class="ui-grid-a" data-mini="true">
+                <div class="ui-block-a" style="padding: 10px 20px;">
+                    <div data-role="fieldcontain">
+                        <label for="PanelNotes_txtmunval">Mun. Value:</label>
+
+
+                        <input type="number" id="PanelNotes_txtmunval" name="PanelNotes_txtmunval" value="0" />
+                    </div>
+                    <div data-role="fieldcontain">
+                        <label for="PanelNotes_txtbondhold">
+                            Bond Holder:</label>
+                        <input type="search" id="PanelNotes_txtbondhold" name="PanelNotes_txtbondhold" maxlength="20"
+                            value=""  class="ac_input" />
+                          <ul id="PanelNotes_txtbondhold_suggestions" data-role="listview" data-inset="true" data-theme="d" data-content-theme="d"></ul>
+                    </div>
+                </div>
+                <div class="ui-block-b" style="padding: 10px 20px;">
+                    <div data-role="fieldcontain">
+                        <label for="PanelNotes_txtratestax">
+                            Rates &amp; Tax:
+                        </label>
+                        <input type="number"   pattern="[0-9]*"  id="PanelNotes_txtratestax" name="PanelNotes_txtratestax" value="0" />
+                    </div>
+                    <div data-role="fieldcontain">
+                        <label for="PanelNotes_txtbondbal">
+                            Bond Amt:
+                        </label>
+
+                        <input  type="number"  pattern="[0-9]*" id="PanelNotes_txtbondbal" name="PanelNotes_txtbondbal" value="0" />
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset class="ui-grid-solo" data-mini="true" style="padding: 10px 20px;">
+                <div data-role="fieldcontain" class="ui-content">
+                    <div data-role="fieldcontain">
+                        <label for="PanelNotes_txtnotes">
+                            <strong>Website/Marketing Note:
+							
+                            </strong>
+                        </label>
+
+                        <textarea id="PanelNotes_txtnotes" name="PanelNotes_txtnotes" rows="10" cols=""></textarea>
+                    </div>
+
+                    <div data-role="fieldcontain">
+                        <label for="PanelNotes_txtvicinity">
+                            <strong>Vicinity:
+					
+                            </strong>
+                        </label>
+                        <textarea id="PanelNotes_txtvicinity" name="PanelNotes_txtvicinity" rows="10" cols=""></textarea>
+                    </div>
+
+                    <div data-role="fieldcontain">
+                        <label for="PanelNotes_txtschools">
+                            <strong>Schools:
+				
+                            </strong>
+                        </label>
+                        <textarea id="PanelNotes_txtschools" name="PanelNotes_txtschools" rows="10" cols=""></textarea>
+                    </div>
+
+                    <div data-role="fieldcontain">
+                        <label for="PanelNotes_txtpnote">
+                            <strong>Private Note:
+					
+                            </strong>
+                        </label>
+                        <textarea id="PanelNotes_txtpnote" name="PanelNotes_txtpnote" rows="10" cols=""></textarea>
+                    </div>
+
+                    <div data-role="fieldcontain">
+                        <label for="PanelNotes_txtreasonsel">
+                            <strong>Reason for Selling:
+							
+                            </strong>
+                        </label>
+                        <textarea id="PanelNotes_txtreasonsel" name="PanelNotes_txtreasonsel" rows="10" cols="">
+					</textarea>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+        <div id="PanelSectional_div" data-role="content">
+            <table width="100%" cellpadding="1" cellspacing="1">
+                <tbody>
+                    <tr>
+                        <td>Sec. Title/Free Hold
+                        </td>
+                        <td>
+                            <div id="PanelSectional_radsec_div">
+                                <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                                    <input type="radio" id="PanelSectional_radsec_freeh_1" name="PanelSectional_radsec_freeh"
+                                        value="Sec. Title" />
+                                    <label for="PanelSectional_radsec_freeh_1">
+                                        Sec. Title</label>
+                                    <input type="radio" id="PanelSectional_radsec_freeh_2" name="PanelSectional_radsec_freeh"
+                                        value="Free Hold " />
+                                    <label for="PanelSectional_radsec_freeh_2">
+                                        Free Hold</label>
+                                    <input type="radio" id="PanelSectional_radsec_freeh_3" name="PanelSectional_radsec_freeh"
+                                        value="N.A." />
+                                    <label for="PanelSectional_radsec_freeh_3">
+                                        N.A.</label>
+                                </fieldset>
+                            </div>
+                        </td>
+                        <td>Inc. Water
+                        </td>
+                        <td>
+                            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                                <label for="PanelSectional_txtincwater">
+                                    Inc. Water</label>
+                                <input type="checkbox" name="PanelSectional_txtincwater" id="PanelSectional_txtincwater" />
+                            </fieldset>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Name of Complex:
+                        </td>
+                        <td>
+                            <input type="text" id="PanelSectional_txtcomplexname" name="PanelSectional_txtcomplexname"
+                                maxlength="25" value="" />
+                        </td>
+                        <td>Cleaning Service
+                        </td>
+                        <td>
+                            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                                <label for="PanelSectional_txtcservice">
+                                    Cleaning Service</label>
+                                <input type="checkbox" name="PanelSectional_txtcservice" id="PanelSectional_txtcservice" />
+                            </fieldset>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Sec Plan No:
+                        </td>
+                        <td>
+                            <input type="text" id="PanelSectional_txtsecpno" name="PanelSectional_txtsecpno"
+                                maxlength="20" value="" />
+                        </td>
+                        <td>Private Garden
+                        </td>
+                        <td>
+                            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                                <label for="PanelSectional_txtpgarden">
+                                    Private Garden</label>
+                                <input type="checkbox" name="PanelSectional_txtpgarden" id="PanelSectional_txtpgarden" />
+                            </fieldset>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Condition of Complex
+                        </td>
+                        <td>
+                            <label for="PanelSectional_txtccond">
+                                Condition of Complex</label>
+                            <input type="search" id="PanelSectional_txtccond" name="PanelSectional_txtccond"
+                                maxlength="20" value="" class="ac_input" />
+                              <ul id="PanelSectional_txtccond_suggestions" data-role="listview" data-inset="true" data-theme="d" data-content-theme="d"></ul>
+                        </td>
+                        <td>Garden Service
+                        </td>
+                        <td>
+                            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                                <label for="PanelSectional_txtgservice">
+                                    Garden Service</label>
+                                <input type="checkbox" name="PanelSectional_txtgservice" id="PanelSectional_txtgservice" />
+                            </fieldset>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Condition of unit
+                        </td>
+                        <td>
+                            <label for="PanelSectional_txtucond">
+                                Condition of unit</label>
+                            <input type="search" id="PanelSectional_txtucond" name="PanelSectional_txtucond"
+                                maxlength="20" value="" class="ac_input" />
+                              <ul id="PanelSectional_txtucond_suggestions" data-role="listview" data-inset="true" data-theme="d" data-content-theme="d"></ul>
+                        </td>
+                        <td>Private Staff
+                        </td>
+                        <td>
+                            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                                <label for="PanelSectional_txtpstaff">
+                                    Private Staff</label>
+                                <input type="checkbox" name="PanelSectional_txtpstaff" id="PanelSectional_txtpstaff" />
+                            </fieldset>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Body Corporate
+                        </td>
+                        <td>
+                            <input type="text" id="PanelSectional_txtbodycorp" name="PanelSectional_txtbodycorp"
+                                value="" />
+                        </td>
+                        <td />
+                    </tr>
+                    <tr>
+                        <td>Section No.
+                        </td>
+                        <td>
+                            <input type="text" id="PanelSectional_txtsection" name="PanelSectional_txtsection"
+                                maxlength="10" value="" />
+                        </td>
+                        <td />
+                    </tr>
+                    <tr>
+                        <td>Stand No.
+                        </td>
+                        <td>
+                            <input type="text" id="PanelSectional_txtstand" name="PanelSectional_txtstand" maxlength="10"
+                                value="" />
+                        </td>
+                        <td>Unit No
+                        </td>
+                        <td>
+                            <input type="text" id="PanelSectional_txtunit" name="PanelSectional_txtunit" maxlength="10"
+                                value="" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Garage No.
+                        </td>
+                        <td>
+                            <input type="text" id="PanelSectional_txtgarageno" name="PanelSectional_txtgarageno"
+                                maxlength="10" value="" />
+                        </td>
+                        <td>Staff No.
+                        </td>
+                        <td>
+                            <input type="text" id="PanelSectional_txtstaffno" name="PanelSectional_txtstaffno"
+                                maxlength="10" value="" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Levy
+                        </td>
+                        <td>
+                            <input type="number" id="PanelSectional_txtclevy" name="PanelSectional_txtclevy"
+                                value="0" />
+                        </td>
+                        <td />
+                    </tr>
+                    <tr>
+                        <td>Pets Allowed
+                        </td>
+                        <td>
+                            <label for="PanelSectional_txtpetsallowed">
+                                Pets Allowed</label>
+                            <input type="search" id="PanelSectional_txtpetsallowed" name="PanelSectional_txtpetsallowed"
+                                maxlength="10" value="" class="ac_input" />
+                              <ul id="PanelSectional_txtpetsallowed_suggestions" data-role="listview" data-inset="true" data-theme="d" data-content-theme="d"></ul>
+                        </td>
+                        <td />
+                    </tr>
+                    <tr>
+                        <td class="gridheader" colspan="4">Managing Agency
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Name
+                        </td>
+                        <td>
+                            <label for="PanelSectional_txtman_ag">
+                                Name</label>
+                            <input type="text" id="PanelSectional_txtman_ag" name="PanelSectional_txtman_ag"
+                                maxlength="20" value="" class="ac_input" />
+                              <ul id="PanelSectional_txtman_ag_suggestions" data-role="listview" data-inset="true" data-theme="d" data-content-theme="d"></ul>
+                        </td>
+                        <td />
+                    </tr>
+                    <tr>
+                        <td>Contact
+                        </td>
+                        <td>
+                            <input type="text" id="PanelSectional_txtman_ag_con" name="PanelSectional_txtman_ag_con"
+                                maxlength="20" value="" />
+                        </td>
+                        <td />
+                    </tr>
+                    <tr>
+                        <td>Telephone
+                        </td>
+                        <td>
+                            <input type="tel" id="PanelSectional_txtman_ag_tel" name="PanelSectional_txtman_ag_tel"
+                                maxlength="15" value="" />
+                        </td>
+                        <td />
+                    </tr>
+                    <tr>
+                        <td class="gridheader" colspan="4">Share Block
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Has Share block
+                        </td>
+                        <td>
+                            <fieldset data-role="controlgroup" data-type="horizontal" data-mini="true">
+                                <label for="PanelSectional_txtshareblock">
+                                    Has Share block</label>
+                                <input type="checkbox" name="PanelSectional_txtshareblock" id="PanelSectional_txtshareblock" />
+                            </fieldset>
+                        </td>
+                        <td />
+                    </tr>
+                    <tr>
+                        <td>Number
+                        </td>
+                        <td>
+                            <input type="text" id="PanelSectional_txtsbno" name="PanelSectional_txtsbno" maxlength="10"
+                                value="" />
+                        </td>
+                        <td>No of Shares
+                        </td>
+                        <td>
+                            <input type="text" id="PanelSectional_txtsbnoofshar" name="PanelSectional_txtsbnoofshar"
+                                maxlength="5" value="0" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Certificate
+                        </td>
+                        <td>
+                            <input type="text" id="PanelSectional_txtsbcert" name="PanelSectional_txtsbcert"
+                                maxlength="15" value="" />
+                        </td>
+                        <td>PQ
+                        </td>
+                        <td>
+                            <input type="text" id="PanelSectional_txtpq" name="PanelSectional_txtpq" maxlength="5"
+                                value="0" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+    <div data-role="footer" data-id="navfooter_property" data-theme="b" data-position="fixed">
+        <div data-role="navbar">
+            <ul>
+                <li><a href="#" class="ui-btn-active ui-state-persist" onclick="navListProp();" data-icon="arrow-r">Status</a></li>
+                <li><a href="#" data-icon="plus" onclick="navaddress();">Address</a></li>
+                <li><a href="#" data-icon="edit" onclick="navspecifics();">Specifics</a></li>
+                <li><a href="#" data-icon="grid" onclick="navnotes();">Notes</a></li>
+                <li><a href="#" data-icon="gear" onclick="navsectional();">Sectional</a></li>
+            </ul>
+        </div>
+    </div>
+    <div data-role="panel" id="context-left-panel" data-display="overlay" data-position-fixed="true" data-theme="a"
+        data-content-theme="d">
+        <ul data-role="listview" data-theme="b" data-inset="true">
+            <li data-icon="delete"><a href="#" data-rel="close">Close</a></li>
+            <li data-icon="back"><a href="#home" data-icon="arrow-l" data-iconpos="left">Home</a></li>
+            <li data-icon="check" data-theme="f"><a href="#" onclick="setPropertyListingData();"
+                data-iconpos="left">Save</a></li>
+        </ul>
+        <ol data-role="listview" id="propcontextlist" data-inset="true">
+            <li data-role="list-divider" data-theme="d">Properties</li>
+
+            <!--<li><a href="#PanelStatus?id=1">Property 1</a></li>
+			<li><a href="#PanelStatus?id=2">Property 2</a></li>
+			<li><a href="#PanelStatus?id=3">Property 3</a></li>
+			<li><a href="#PanelStatus?id=4">Property 4</a></li>
+			<li><a href="#PanelStatus?id=5">Property 5</a></li>
+			<li><a href="#PanelStatus?id=6">Property 6</a></li>
+			<li><a href="#PanelStatus?id=7">Property 7</a></li>-->
+        </ol>
+    </div>
+    <div data-role="subpage" id="PanelPicturePageHome" class="gallery-page">
+        <style>
+            h2
+            {
+                text-align: center;
+                color: #ffffff;
+            }
+
+            img
+            {
+                width: 100%;
+            }
+
+
+            .imgDisplay
+            {
+                width: 100%;
+            }
+
+
+            .thumbnail
+            {
+                padding: 5px;
+                height: 150px;
+            }
+
+            #picturegallery img
+            {
+                height: 100%;
+            }
+        </style>
+        <script>
+            initPics();
+        </script>
+        <div data-role="header" data-id="navheaderpicturegallery">
+            <h1 id="picturepopanchor">Property Photos</h1>
+            <a data-icon="arrow-l" href="#" data-rel="back" class="ui-btn-left">Back</a> 
+            <a href="#PanelPictures" id="panelpicturelink"
+                data-inline="true" data-transition="pop" data-rel="popup" data-position-to="window"
+                data-role="button" data-icon="plus">Add</a>
+        </div>
+        <div data-role="content" id="picturegallery_div" data-theme="a">
+            <ul data-role="listview" id="picturegallery" data-inset="true">
+            </ul>
+        </div>
+        <div id="PanelPictures" data-role="popup" data-theme="b" data-history="false" style="width: 400px; max-height: 600px"
+            class="ui-corner-all">
+            <div data-role="header" data-theme="b" data-id="navheaderpicture" class="ui-corner-top">
+                <h3 id="picviewheader">Add Picture</h3>
+            </div>
+            <div data-role="content" id="takepicture_div" class="ui-corner-bottom ui-content">
+                <!--<h2 class="ui-title">
+					Write a Description</h2>-->
+                <div id="addPicture">
+                    <form id="formPictures">
+                        <label for="PictureDescription">
+                            Description:</label>
+                        <textarea id="PictureDescription"></textarea>
+                        <input type="hidden" id="entryPicture" />
+                        <img id="imgPreview" class="imgDisplay" />
+                        <div id="capturefunctions" class="ui-grid-a">
+                            <div class="ui-block-a">
+                                <button id="takePicture" data-mini="true">
+                                    Capture</button>
+                            </div>
+                            <div class="ui-block-b">
+                                <button id="selectPicture" data-mini="true">
+                                    Select</button>
+                            </div>
+                        </div>
+                        <div id="editfunctions" class="ui-grid-a" hidden="hidden">
+                            <div class="ui-block-a">
+
+                                <button id="editPicture" data-mini="true">
+                                    Update</button>
+                            </div>
+                            <div class="ui-block-b">
+                                <button id="deletePicture" data-mini="true">
+                                    Delete</button>
+                            </div>
+                        </div>
+                        <div id="PictureSubmit">
+                            <button type="submit" data-role="button" id="addPictureSubmitForm" data-theme="c">
+                                Save</button>
+                        </div>
+                        <!--   <button
+                        
+                        data-textonly="false"
+                        data-textvisible="true"
+                        data-msgtext="Saving Pictures"
+                        id="addPictureSubmit">
+                        Save</button>-->
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

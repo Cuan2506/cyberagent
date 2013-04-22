@@ -1,0 +1,191 @@
+
+
+/* Adjust the width of the left reveal menu.
+Copy all CSS from jquery.mobile.panel.css and delete the properties other than width, left, right and transform.
+Then delete the selectors/rules for display modes (reveal/push/overlay) and the position (left/right) that you don't use.
+If you don't use fixed toolbars on your page you can delete those selectors as well.
+Narrow the scope of the selectors to prevent other panels being affected by the overrides. */
+#PanelStatus #context-left-panel.ui-panel
+{
+    width: 17em;
+}
+
+#PanelStatus #context-left-panel.ui-panel-closed
+{
+    width: 0;
+}
+
+#PanelStatus .ui-panel-position-left.ui-panel-display-reveal
+{
+    left: 0;
+}
+
+#PanelStatus .ui-panel-content-wrap-position-left.ui-panel-content-wrap-open,
+.ui-panel-dismiss-position-left.ui-panel-dismiss-open
+{
+    left: 17em;
+    right: -17em;
+}
+
+#PanelStatus .ui-panel-animate.ui-panel-content-wrap-position-left.ui-panel-content-wrap-open.ui-panel-content-wrap-display-reveal
+{
+    left: 0;
+    right: 0;
+    -webkit-transform: translate3d(15em,0,0);
+    -moz-transform: translate3d(15em,0,0);
+    transform: translate3d(15em,0,0);
+}
+/* Combined listview collapsible menu. */
+/* Unset negative margin bottom on the listviews. */
+#context-left-panel.ui-panel-inner > .ui-listview
+{
+    margin-bottom: 0;
+}
+/* Unset top and bottom margin on collapsible set. */
+#context-left-panel.ui-collapsible-set
+{
+    margin: 0;
+}
+/* The first collapsible contains the collapsible set. Make it fit exactly in the collapsible content. */
+#context-left-panel.ui-panel-inner > .ui-collapsible > .ui-collapsible-content
+{
+    padding-top: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+/* Remove border top if a collapsible comes after a listview. */
+#context-left-panel.ui-panel-inner > .ui-collapsible > .ui-collapsible-heading .ui-btn,
+#context-left-panel.ui-collapsible.ui-first-child .ui-collapsible-heading .ui-btn
+{
+    border-top: none;
+}
+/* Give the first collapsible heading the same padding, i.e. same height, as the list items. */
+#context-left-panel.ui-collapsible-heading .ui-btn-inner
+{
+    padding: .7em 40px .7em 15px;
+}
+/* Give the other collapsible headings the same padding and font-size as the list divider. */
+#context-left-panel.ui-collapsible-set .ui-collapsible-heading .ui-btn-inner
+{
+    padding: .5em 40px .5em 15px;
+    font-size: 14px;
+}
+/* Styling of the close button in both panels. */
+#PanelStatus .ui-panel-inner > .ui-listview .ui-first-child
+{
+    background: #999999;
+}
+/* Reveal menu shadow on top of the list items */
+#PanelStatus .ui-panel-display-reveal
+{
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
+
+#PanelStatus .ui-panel-content-wrap-position-left
+{
+    -webkit-box-shadow: -5px 0px 5px rgba(0,0,0,.15);
+    -moz-box-shadow: -5px 0px 5px rgba(0,0,0,.15);
+    box-shadow: -5px 0px 5px rgba(0,0,0,.15);
+}
+/* Use the ui-body class of your page theme to set a background image.
+The page theme will be set for the content wrapper,
+while the page get the panel them before opening the panel. */
+#PanelStatus .ui-body-d
+{
+    /*background-image: url(../../_assets/img/bg-pattern.png);*/
+    /*background-repeat: repeat-x;
+    background-position: left bottom;*/
+}
+/* Styling of the page contents */
+.PanelStatusmenu p
+{
+    margin: 0 0 1em;
+    line-height: 1.5;
+}
+
+    .PanelStatusmenu p img
+    {
+        max-width: 100%;
+    }
+
+    .PanelStatusmenu p:first-child
+    {
+        text-align: center;
+    }
+
+.PanelStatusmenu small
+{
+    display: block;
+    font-size: 75%;
+    color: #c0c0c0;
+}
+
+.PanelStatusmenu p:last-child
+{
+    text-align: right;
+}
+
+.PanelStatusmenu a.ui-btn
+{
+    margin-right: 2em;
+    -webkit-border-radius: .4em;
+    border-radius: .4em;
+}
+
+@media all and (min-width:769px)
+{
+    .PanelStatusmenu
+    {
+        max-width: 1024px;
+        margin: 0 auto;
+        padding-top: 2em;
+        -webkit-column-count: auto;
+        -moz-column-count: auto;
+        column-count: auto;
+        -webkit-column-gap: 2em;
+        -moz-column-gap: 2em;
+        column-gap: 1em;
+    }
+        /* Fix for issue with buttons and form elements
+    if CSS columns are used on a page with a panel. */
+        .PanelStatusmenu a.ui-btn
+        {
+            -webkit-transform: translate3d(0,0,0);
+        }
+}
+
+@media (min-width:35em)
+{
+
+    /* wrap on wide viewports once open */
+
+    .ui-responsive-panel.ui-page-panel-open .ui-panel-content-fixed-toolbar-display-push.ui-panel-content-fixed-toolbar-position-left,
+    .ui-responsive-panel.ui-page-panel-open .ui-panel-content-fixed-toolbar-display-reveal.ui-panel-content-fixed-toolbar-position-left,
+    .ui-responsive-panel.ui-page-panel-open .ui-panel-content-wrap-display-push.ui-panel-content-wrap-position-left,
+    .ui-responsive-panel.ui-page-panel-open .ui-panel-content-wrap-display-reveal.ui-panel-content-wrap-position-left
+    {
+        margin-right: 17em;
+    }
+
+    .ui-responsive-panel.ui-page-panel-open .ui-panel-content-fixed-toolbar-display-push.ui-panel-content-fixed-toolbar-position-right,
+    .ui-responsive-panel.ui-page-panel-open .ui-panel-content-fixed-toolbar-display-reveal.ui-panel-content-fixed-toolbar-position-right,
+    .ui-responsive-panel.ui-page-panel-open .ui-panel-content-wrap-display-push.ui-panel-content-wrap-position-right,
+    .ui-responsive-panel.ui-page-panel-open .ui-panel-content-wrap-display-reveal.ui-panel-content-wrap-position-right
+    {
+        margin-left: 17em;
+    }
+
+    .ui-responsive-panel.ui-page-panel-open .ui-panel-content-fixed-toolbar-display-push,
+    .ui-responsive-panel.ui-page-panel-open .ui-panel-content-fixed-toolbar-display-reveal
+    {
+        width: auto;
+    }
+
+    /* disable "dismiss" on wide viewports */
+    .ui-responsive-panel .ui-panel-dismiss-display-push
+    {
+        display: none;
+    }
+}
