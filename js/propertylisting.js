@@ -1,7 +1,7 @@
 ﻿function PropertyListing()
 {
     that = this;
-    var _self = this;
+   // var _self = this;
 }
 
 PropertyListing.prototype.setup = function (callback)

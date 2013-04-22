@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.tivvit.cyberagent.mobile" version="10.4" versionCode="104"
+<widget id="com.tivvit.cyberagent.mobile" version="10.5" versionCode="105"
 xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
-  <name>Cyber Agent Mobile (10.4)</name>
+  <name>Cyber Agent Mobile (10.5)</name>
   <description>
-    Cyber Agent Mobile (10.4)
+    Cyber Agent Mobile (10.5)
   </description>
   <author email="cuan.alan.thompson@gmail.com" href="http://www.cyberprop.co.za">
     Cuan Thompson

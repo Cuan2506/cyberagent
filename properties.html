@@ -1,4 +1,4 @@
-﻿<div id="PanelStatus" data-role="page" data-dom-cache="true" data-theme="b">
+﻿<div id="PanelStatus" data-role="page" data-url="properties.html" data-theme="b">
     <script type="text/javascript" src="js/dynamic.js"></script>
     <script type="text/javascript">
         $(document).bind("pagebeforechange", function (e, data)
@@ -7,32 +7,6 @@
             // We only want to handle changePage() calls where the caller is
             // asking us to load a page by URL.
             console.log("data.topage " + typeof data.toPage);
-
-            // Parsing the Url below results an object that is returned with the
-            // following properties:
-            //
-            //var obj = $.mobile.path.parseUrl(data.toPage);
-            //console.log("URL Details - " +
-            //+" " + obj.href
-            //+ " " + obj.hrefNoHash
-            //+ " " + obj.hrefNoSearch
-            //+ " " + obj.domain
-            //+ " " + obj.protocol
-            //+ " " + obj.authority
-            //+ " " + obj.username
-            //+ " " + obj.password
-            //+ " " + obj.host
-            //+ " " + obj.hostname
-            //+ " " + obj.port
-            //+ " " + obj.pathname
-            //+ " " + obj.directory
-            //+ " " + obj.filename
-            //+ " " + obj.search
-            //+ " " + obj.hash);
-            //navigator.splashscreen.hide();
-
-
-            //alert("data.topage " + data.toPage);
 
             if (typeof data.toPage === "string") {
 
@@ -114,13 +88,13 @@
                                 $('#PanelAddress_txtSuburb').append('<option value="' + formarr.PanelAddress_txtSuburb + '">' + formarr.PanelAddress_txtSuburb + '</option>');
                                 $('#PanelAddress_txtSuburb').selectmenu('refresh', true);
                                 //PanelAddress_txtSuburb
-                                alert("pagebeforechange form data - address: " + formarr.PanelAddress_txtStreetno + ' ' + formarr.PanelAddress_txtStreet + ', ' + formarr.PanelAddress_txtSuburb + ', ' + formarr.PanelAddress_txtCity);
+                               // alert("pagebeforechange form data - address: " + formarr.PanelAddress_txtStreetno + ' ' + formarr.PanelAddress_txtStreet + ', ' + formarr.PanelAddress_txtSuburb + ', ' + formarr.PanelAddress_txtCity);
                             }
 
                             $form.deserialize(storeddata, function ()
                             {
                                 console.log("form data replaced!");
-                                alert("pagebeforechange form data deserialize");
+                              //  alert("pagebeforechange form data deserialize");
 
 
                             });
@@ -148,8 +122,8 @@
     <div data-role="header" data-theme="b" data-id="navpropertyheader" data-position="fixed">
         <h1 id="propertyhead">CyberAgent Mobile - Property Status</h1>
         <a href="#context-left-panel" data-icon="grid" data-theme="b" class="ui-btn-left"
-            data-shadow="false">Menu</a> <a href="#PanelPicturePageHome" data-theme="c" 
-                data-url="PanelPicturePageHome" data-prefetch="true" data-icon="star" class="ui-btn-right">Pictures</a>
+            data-shadow="false">Menu</a> <a href="#PanelPicturePageHome" data-theme="c"
+                data-url="PanelPicturePageHome" data-icon="star" class="ui-btn-right">Pictures</a>
     </div>
     <!-- Property form -- 1 form that wraps 5 content divs -->
     <form id="formproperty">
@@ -1528,8 +1502,8 @@
                     data-icon="arrow-r">Status</a></li>
                 <li><a href="#" data-icon="plus" id="navaddress" onclick="navaddress();">Address</a></li>
                 <li><a href="#" data-icon="edit" id="navspecifics" onclick="navspecifics();">Specifics</a></li>
-                <li><a href="#" data-icon="grid" id="navnotes"  data-transition="slide" onclick="navnotes();">Notes</a></li>
-                <li><a href="#" data-icon="gear" id="navsectional"  data-transition="slide"  onclick="navsectional();">Sectional</a></li>
+                <li><a href="#" data-icon="grid" id="navnotes" onclick="navnotes();">Notes</a></li>
+                <li><a href="#" data-icon="gear" id="navsectional" onclick="navsectional();">Sectional</a></li>
             </ul>
         </div>
     </div>
@@ -1543,13 +1517,6 @@
         </ul>
         <ol data-role="listview" id="propcontextlist" data-inset="true">
             <li data-role="list-divider" data-theme="d">Properties</li>
-            <!--<li><a href="#PanelStatus?id=1">Property 1</a></li>
-			<li><a href="#PanelStatus?id=2">Property 2</a></li>
-			<li><a href="#PanelStatus?id=3">Property 3</a></li>
-			<li><a href="#PanelStatus?id=4">Property 4</a></li>
-			<li><a href="#PanelStatus?id=5">Property 5</a></li>
-			<li><a href="#PanelStatus?id=6">Property 6</a></li>
-			<li><a href="#PanelStatus?id=7">Property 7</a></li>-->
         </ol>
     </div>
     <div data-role="subpage" id="PanelPicturePageHome" class="gallery-page">
@@ -1586,7 +1553,7 @@
 
         <div data-role="header" data-id="navheaderpicturegallery">
             <h1 id="picturepopanchor">Property Photos</h1>
-            <a data-icon="arrow-l" href="#" data-rel="back" class="ui-btn-left">Back</a> 
+            <a data-icon="arrow-l" href="#" data-rel="back" class="ui-btn-left">Back</a>
             <a href="#PanelPictures"
                 id="panelpicturelink" data-inline="true" data-transition="pop" data-rel="popup"
                 data-position-to="window" data-role="button" data-icon="plus">Add</a>
@@ -1597,7 +1564,7 @@
         </div>
         <div id="PanelPictures" data-role="popup" data-theme="b"
             data-history="false"
-            class="ui-corner-all" style="max-width: 640px;" >
+            class="ui-corner-all" style="max-width: 640px;">
             <div data-role="header" data-theme="b" data-id="navheaderpicture" class="ui-corner-top">
                 <h3 id="picviewheader">Add Picture</h3>
             </div>
@@ -1635,13 +1602,7 @@
                             <button type="submit" data-role="button" id="addPictureSubmitForm" data-theme="c">
                                 Save</button>
                         </div>
-                        <!--   <button
-                        
-                        data-textonly="false"
-                        data-textvisible="true"
-                        data-msgtext="Saving Pictures"
-                        id="addPictureSubmit">
-                        Save</button>-->
+
                     </form>
                 </div>
             </div>
@@ -1652,3 +1613,4 @@
 
     </div>
 </div>
+

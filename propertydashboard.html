@@ -4,13 +4,13 @@
         {
             console.log("propertydashboard pageinit run");
 
-            $.mobile.loadPage("properties.html",true);
+         
             listPropertiesFromDB("#proplist");
 
             $("#propertydashboard").on("pageshow", function () {
             	console.log("Showing property list");
 
-
+            	$.mobile.loadPage("properties.html", true);
             	
             	//            $('#proplist li').each(function (index)
             	//            {
