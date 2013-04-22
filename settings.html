@@ -1,0 +1,187 @@
+﻿<div data-role="page" data-theme="c" id="settingshome">
+    <script type="text/javascript" src="js/syncdata.js"></script>
+    <script>
+        $("#settingshome").on("pageinit", function ()
+        {
+            console.log("settingshome pageinit start");
+
+            settingsReady();
+            $("#settingshome").on("pagebeforeshow", function ()
+            {
+                displayCounts();
+            })
+        });
+
+    </script>
+    <div data-role="header" data-theme="b" data-id="navheadersettingshome" data-position="fixed">
+        <h1>Settings and Sync</h1>
+        <a href="index.html" data-ajax="false" data-icon="home" data-shadow="true" data-iconshadow="false">Home</a>
+    </div>
+
+    <div data-role="content" id="settingscontent_div">
+
+
+        <div data-role="popup" id="SettingsPanel" data-history="false" data-overlay-theme="a" data-theme="c" data-dismissible="false" style="max-width: 400px;" class="ui-corner-all">
+            <div data-role="header" data-theme="a" class="ui-corner-top">
+                <h3>Synchronize</h3>
+            </div>
+            <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+                <h3 class="ui-title">Are you sure you want to sync these items</h3>
+                <form id="settingsform" style="padding: 10px 20px;">
+
+                    <div data-role="fieldcontain">
+                        <input type="checkbox"
+                            name="SettingsPanel_chklocation" id="SettingsPanel_chklocation" />
+                        <label for="SettingsPanel_chklocation">Locations</label>
+                    </div>
+                    <div data-role="fieldcontain">
+                        <input type="checkbox"
+                            name="SettingsPanel_chktemplates" id="SettingsPanel_chktemplates" />
+                        <label for="SettingsPanel_chktemplates">Templates</label>
+                    </div>
+                    <a href="#" data-role="button" data-inline="true" data-rel="back" data-theme="c">Cancel</a>
+                    <button id="settingsbtn" data-inline="true" type="submit" data-theme="b">Sync Now</button>
+                </form>
+            </div>
+        </div>
+
+        <div data-role="popup" id="ResetPanel" data-history="false" data-overlay-theme="a" data-theme="c" data-dismissible="false" style="max-width: 400px;" class="ui-corner-all">
+            <div data-role="header" data-theme="a" class="ui-corner-top">
+                <h3>Reset</h3>
+            </div>
+            <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+                <h3 class="ui-title">Are you sure you want to reset these items</h3>
+                <form id="ResetPanelForm" style="padding: 10px 20px;">
+                    <h3>Please select reset type</h3>
+                    <div data-role="fieldcontain">
+                        <input type="checkbox"
+                            name="ResetPanel_chklocation" id="ResetPanel_chklocation" />
+                        <label for="ResetPanel_chklocation">Locations</label>
+                    </div>
+                    <div data-role="fieldcontain">
+                        <input type="checkbox"
+                            name="ResetPanel_chkimages" id="ResetPanel_chkimages" />
+                        <label for="ResetPanel_chkimages">Image Cache</label>
+                    </div>
+                    <div data-role="fieldcontain">
+                        <input type="checkbox"
+                            name="ResetPanel_chktemplates" id="ResetPanel_chktemplates" />
+                        <label for="ResetPanel_chktemplates">Templates</label>
+                    </div>
+                    <div data-role="fieldcontain">
+                        <input type="checkbox"
+                            name="ResetPanel_chklogin" id="ResetPanel_chklogin" />
+                        <label for="ResetPanel_chklogin">Login Settings</label>
+                    </div>
+                    <a href="#" data-role="button" data-inline="true" data-rel="back" data-theme="c">Cancel</a>
+                    <button id="resetbutton" type="submit" data-inline="true" data-theme="b">Reset Now</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="settingsstatus_div" data-role="collapsible-set">
+
+
+            <div data-role="collapsible" data-theme="c" data-content-theme="d"
+                data-collapsed="false">
+                <h3>Settings</h3>
+
+                        <div class="ui-content">
+                            <ul data-role="listview" data-inset="true" data-theme="a" data-content-theme="d">
+                                <li data-role="list-divider" data-content-theme="d">Setup</li>
+
+                                <li>
+                                    <div class="ui-grid-a">
+                                        <div class="ui-block-a">
+                                            <a href="#ResetPanel" data-corners="false" data-theme="e"  data-icon="delete"  data-rel="popup" data-position-to="window" data-role="button" data-transition="pop">Reset Local Data</a>
+                                        </div>
+                                        <div class="ui-block-b">
+                                            <a href="#SettingsPanel" data-corners="false"  data-icon="refresh"  data-rel="popup" data-position-to="window" data-role="button" data-transition="pop">Sync Setup</a>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li data-role="list-divider" data-content-theme="d">Current Status</li>
+                                <li data-icon="false"><a href="#">
+                                    <strong>Locations Count<span id="locationcount" class="ui-li-count" style="color: red"></span></strong>
+                                </a></li>
+                                <li data-icon="false">
+                                    <a href="#">
+                                        <strong>My Template Count<span id="templatecount" class="ui-li-count" style="color: red"></span></strong>
+                                    </a>
+                                </li>
+                            </ul>
+                            <ul data-role="listview" data-inset="true" data-theme="a" data-content-theme="d">
+                                <li data-role="list-divider" data-content-theme="d">Status Log</li>
+
+                                <li>
+                                    <div id="ProgressPanel">
+                                       
+                                      
+                                    </div>
+                                </li>
+
+                            </ul>
+                        </div>
+                  
+                   
+               
+            </div>
+
+
+            <div data-role="collapsible" data-content-theme="d"
+                data-collapsed="false">
+                <h3>My Properties</h3>
+                <div data-role="collapsible-set" data-collapsed="false" data-inset="true">
+                    <ol data-role="listview" id="proplistsync" data-inset="true">
+                        <li data-role="list-divider">Click to Upload</li>
+
+                    </ol>
+                </div>
+                <!--<a href="#popupDialog" data-rel="popup" data-position-to="window" data-role="button" data-inline="true" data-transition="pop" data-icon="check" data-theme="b">Submit</a>-->
+                <div data-role="popup" id="popupDialog" data-history="false" data-overlay-theme="a" data-theme="c" data-dismissible="false" style="max-width: 400px;" class="ui-corner-all">
+                    <div data-role="header" data-theme="a" class="ui-corner-top">
+                        <h1>Submit Listing</h1>
+                    </div>
+                    <div data-role="content" data-theme="d" class="ui-corner-bottom ui-content">
+                        <h3 class="ui-title">Are you sure you want to submit this listing</h3>
+                        <p>This will lock this property for editing</p>
+                        <div data-role="content">
+                            <form id="formsubmitproperty" style="padding: 10px 20px;">
+
+                                <div data-role="fieldcontain">
+                                    <input type="checkbox"
+                                        name="formsubmitproperty_chkproperty" required="true" id="formsubmitproperty_chkproperty" />
+                                    <label for="formsubmitproperty_chkproperty">Property</label>
+                                </div>
+                                <div data-role="formsubmitproperty_chkpictures">
+                                    <input type="checkbox"
+                                        name="formsubmitproperty_chkpictures" id="formsubmitproperty_chkpictures" />
+                                    <label for="formsubmitproperty_chkpictures">Pictures</label>
+                                </div>
+                                <a href="#" data-role="button" data-inline="true" data-rel="back" data-theme="c">Cancel</a>
+                                <button id="syncPropertySubmit" data-transition="flow"
+                                    data-textonly="false"
+                                    data-textvisible="true"
+                                    data-msgtext="Uploading Property" data-inline="true" type="submit" data-theme="b">
+                                    Sync Now</button>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+    <div data-role="panel" data-position-fixed="true" id="settingsnav-panel" data-theme="a">
+        <ul data-role="listview" data-theme="b" class="nav-search">
+            <li data-icon="delete"><a href="#" data-rel="close">Close</a></li>
+            <li data-icon="back"><a href="index.html" data-ajax="false" data-icon="arrow-l" data-iconpos="left">Home</a></li>
+        </ul>
+
+    </div>
+
+</div>
